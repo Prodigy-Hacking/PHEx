@@ -1,11 +1,21 @@
-(() => {
-	const debug = false;
+(async () => {
+	const debug = true;
 
 	const redirectorDomain = debug? "http://localhost:1337" : "https://prodigyhacking.ml"
 
 	if (!window.abortion) {
 		// only run inject script once on the page, even if game.min is requested multiple times
 		window.abortion = "Hey, we've injected the thingy";
+
+		// check for outdated plugin
+		const pluginVersion = chrome.runtime.getManifest().version;
+		const supportedVersion = (await (await fetch(`${redirectorDomain}/version`)).text());
+
+		if (pluginVersion !== supportedVersion) {
+			const res = confirm("Outdated plugin version! Hacks are not guaranteed to work! If you would like to update, please click 'OK'");
+
+			if (res) location = "https://github.com/Prodigy-Hacking/ProdigyMathGameHacking/wiki/How-to-Update";
+		}
 	
 		// die, integrity
 		[...document.getElementsByTagName("script"), ...document.getElementsByTagName("link")].forEach(v => {
