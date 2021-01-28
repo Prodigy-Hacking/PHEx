@@ -1,5 +1,5 @@
 (async () => {
-	const debug = true;
+	const debug = false;
 
 	const redirectorDomain = debug ? "http://localhost:1337" : "https://prodigyhacking.ml"
 
