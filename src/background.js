@@ -26,12 +26,16 @@ chrome.webRequest.onBeforeRequest.addListener(details => {
 		return { redirectUrl: `${redirectorDomain}/public-game.min.js?hash=${details.url.split("public-game-")[1].split(".")[0]}` };
 	} else if (details.url.startsWith("https://api.prodigygame.com/game-api/v1/character/")) {
 		return { redirectUrl: "https://api.prodigygame.com/game-api/v1/character/" + details.url.substring(details.url.lastIndexOf("/") + 1, details.url.lastIndexOf("?")) + "?isMember=1&userID=" + details.url.split("&userID=")[1] };
-	}
+	} /*else if (details.url.startsWith("https://api.prodigygame.com/game-api/status")) {
+		alert(1);
+		return { redirectUrl: `${redirectorDomain}/status` };
+	}*/
 }, {
 	urls: [
 		"https://code.prodigygame.com/code/*/game.min.js?v=*",
 		"https://code.prodigygame.com/js/public-game-*.min.js",
-		"https://api.prodigygame.com/game-api/v1/character/*?isMember=0&userID=*"
+		"https://api.prodigygame.com/game-api/v1/character/*?isMember=0&userID=*",
+		//"https://api.prodigygame.com/game-api/status"
 	],
 	types: ["script", "xmlhttprequest"],
 }, ["blocking"]);
